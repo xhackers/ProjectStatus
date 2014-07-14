@@ -23,31 +23,31 @@ namespace Status
                 IsAndroidComplete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsAndroidComplete"]) ? "false" : context.Request.QueryString["IsAndroidComplete"]));
                 IsiOSComplete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsiOSComplete"]) ? "false" : context.Request.QueryString["IsiOSComplete"]));
                 IsWP8Complete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsWP8Complete"]) ? "false" : context.Request.QueryString["IsWP8Complete"]));
-
+                Guid newguid = Guid.NewGuid();                
                 Image img = Image.FromFile((IsCompleteWithSample ? context.Server.MapPath("./images/") + "2.png" : context.Server.MapPath("./images/") + "1.png"));
                 Graphics g = Graphics.FromImage(img);
                 g.DrawImage(Image.FromFile((IsAndroidComplete ? context.Server.MapPath("./images/") + "4.png" : context.Server.MapPath("./images/") + "3.png")), new Point(10, 10));
                 g.DrawImage(Image.FromFile((IsiOSComplete ? context.Server.MapPath("./images/") + "6.png" : context.Server.MapPath("./images/") + "5.png")), new Point(20, 20));
                 g.DrawImage(Image.FromFile((IsWP8Complete ? context.Server.MapPath("./images/") + "8.png" : context.Server.MapPath("./images/") + "7.png")), new Point(30, 30));
-                Guid newguid = Guid.NewGuid();
-                img.Save(context.Server.MapPath("./images/") + newguid + ".png", ImageFormat.Png);
-                img.Dispose();
-                byte[] imgBytes = File.ReadAllBytes(context.Server.MapPath("./images/") + newguid + ".png");
-                if (imgBytes.Length > 0)
+                
+                using (MemoryStream stream = new MemoryStream())
                 {
-                    context.Response.ClearHeaders();
-                    context.Response.Clear();
+                    img.Save(stream, ImageFormat.Png);
+                    stream.WriteTo(context.Response.OutputStream);
+
                     context.Response.ContentType = "image/png";
-                    context.Response.BinaryWrite(imgBytes);
+                    using (BinaryWriter writer = new BinaryWriter(stream))
+                    {
+                        context.Response.Write(1);
+                    }
+                    stream.Flush();                    
                 }
-                File.Delete(context.Server.MapPath("./images/") + newguid + ".png");
             }
             catch (Exception ex)
             {
                 context.Response.ContentType = "text/plain";
                 context.Response.Write(ex.Message + "\r\n" + ex.StackTrace + ex.InnerException);
             }
-            
         }
 
         public bool IsReusable
