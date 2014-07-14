@@ -29,25 +29,33 @@ namespace Status
                 g.DrawImage(Image.FromFile((IsAndroidComplete ? context.Server.MapPath("./images/") + "4.png" : context.Server.MapPath("./images/") + "3.png")), new Point(10, 10));
                 g.DrawImage(Image.FromFile((IsiOSComplete ? context.Server.MapPath("./images/") + "6.png" : context.Server.MapPath("./images/") + "5.png")), new Point(20, 20));
                 g.DrawImage(Image.FromFile((IsWP8Complete ? context.Server.MapPath("./images/") + "8.png" : context.Server.MapPath("./images/") + "7.png")), new Point(30, 30));
-                
                 using (MemoryStream stream = new MemoryStream())
                 {
                     img.Save(stream, ImageFormat.Png);
                     stream.WriteTo(context.Response.OutputStream);
 
-                    context.Response.ContentType = "image/png";
-                    using (BinaryWriter writer = new BinaryWriter(stream))
+                    using (Image image = Image.FromStream(stream))
                     {
-                        context.Response.Write(1);
+                        image.Save(context.Server.MapPath("./images/") + newguid + ".png", ImageFormat.Png);
                     }
-                    stream.Flush();                    
+                     
+                    byte[] imgBytes = File.ReadAllBytes(context.Server.MapPath("./images/") + newguid + ".png");
+                    if (imgBytes.Length > 0)
+                    {
+                        context.Response.ClearHeaders();
+                        context.Response.Clear();
+                        context.Response.ContentType = "image/png";
+                        context.Response.BinaryWrite(imgBytes);
+                    }
                 }
+                File.Delete(context.Server.MapPath("./images/") + newguid + ".png");
             }
             catch (Exception ex)
             {
                 context.Response.ContentType = "text/plain";
                 context.Response.Write(ex.Message + "\r\n" + ex.StackTrace + ex.InnerException);
             }
+            
         }
 
         public bool IsReusable
