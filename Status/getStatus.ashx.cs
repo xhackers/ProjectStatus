@@ -42,10 +42,10 @@ namespace Status
                 }
                 File.Delete(context.Server.MapPath("./images/") + newguid + ".png");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                
-                throw;
+                context.Response.ContentType = "text/plain";
+                context.Response.Write(ex.Message + "\r\n" + ex.StackTrace + ex.InnerException);
             }
             
         }
