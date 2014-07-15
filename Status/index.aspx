@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    <img src="getStatus.ashx?IsComplete=true&IsAndroidComplete=true&IsiOSComplete=true&IsWP8Complete=true" />
+    <img src="getStatus.ashx?complete=true&android=true&ios=true&wp=true" />
     </div>
     </form>
 </body>

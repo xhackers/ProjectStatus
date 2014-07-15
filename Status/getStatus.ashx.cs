@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -13,21 +14,28 @@ namespace Status
     /// </summary>
     public class getStatus : IHttpHandler
     {
+        
         bool IsCompleteWithSample = false, IsAndroidComplete = false, IsiOSComplete = false, IsWP8Complete = false;
          
         public void ProcessRequest(HttpContext context)
         {
-            IsCompleteWithSample = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsComplete"]) ? "false" : context.Request.QueryString["IsComplete"]));
-            IsAndroidComplete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsAndroidComplete"]) ? "false" : context.Request.QueryString["IsComplete"]));
-            IsiOSComplete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsiOSComplete"]) ? "false" : context.Request.QueryString["IsComplete"]));
-            IsWP8Complete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsWP8Complete"]) ? "false" : context.Request.QueryString["IsComplete"]));
-            Image img = Image.FromFile((IsCompleteWithSample ? context.Server.MapPath("./") + "2.png" : context.Server.MapPath("./") + "1.png"));
+            const string ext = ".png";
+            IsCompleteWithSample = bool.Parse(GetParam("complete",context));
+            IsAndroidComplete = bool.Parse(GetParam("android", context));
+            IsiOSComplete = bool.Parse(GetParam("ios", context));
+            IsWP8Complete = bool.Parse(GetParam("wp", context));
+
+            Image img = Image.FromFile(context.Server.MapPath("./") + (IsCompleteWithSample ? "2" : "1") + ext);
+            var wpImg = Image.FromFile(context.Server.MapPath("./") + (IsWP8Complete ? "4" : "3") + ext);
+            var iOsImg = Image.FromFile(context.Server.MapPath("./") + (IsiOSComplete ? "6" : "5") + ext);
+            var androidImg = Image.FromFile(context.Server.MapPath("./") + (IsAndroidComplete ? "8" : "7") + ext);
 
             Graphics g = Graphics.FromImage(img);
-
-            g.DrawImage(Image.FromFile((IsAndroidComplete ? context.Server.MapPath("./") + "4.png" : context.Server.MapPath("./") + "3.png")), new Point(10, 10));
-            g.DrawImage(Image.FromFile((IsiOSComplete ? context.Server.MapPath("./") + "6.png" : context.Server.MapPath("./") + "5.png")), new Point(20, 20));
-            g.DrawImage(Image.FromFile((IsWP8Complete ? context.Server.MapPath("./") + "8.png" : context.Server.MapPath("./") + "7.png")), new Point(30, 30));
+            var centerPoint = new Point(img.Width/2,img.Height/2);
+            
+            g.DrawImage(androidImg, ImgOffset(androidImg,centerPoint));
+            g.DrawImage(iOsImg, ImgOffset(iOsImg, centerPoint));
+            g.DrawImage(wpImg, ImgOffset(wpImg, centerPoint));
             img.Save(context.Server.MapPath("./") + "output.png", ImageFormat.Png);
             img.Dispose();
             byte[] imgBytes = File.ReadAllBytes(context.Server.MapPath("./") + "output.png");
@@ -40,6 +48,19 @@ namespace Status
             }
         }
 
+        private Point ImgOffset(Image img, Point canvasCenter)
+        {
+            var imageCenter = new Size(img.Width/2,img.Height/2);
+
+            return Point.Subtract(canvasCenter, imageCenter);
+        }
+
+        private string GetParam(string param, HttpContext context)
+        {
+            return (String.IsNullOrEmpty(context.Request.QueryString[param])
+                ? "false"
+                : context.Request.QueryString[param].ToLowerInvariant());
+        }
         public bool IsReusable
         {
             get
