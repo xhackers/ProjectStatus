@@ -9,25 +9,26 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            getStatus.ashx?complete=true&android=true&ios=true&wp=true<br />
+            <h1>Usage</h1>
+            http://projectstatus.apphb.com/getStatus.ashx?complete=true&android=true&ios=true&wp=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=true&android=true&ios=true&wp=true" /><br />
-            getStatus.ashx?complete=false&android=false&ios=true&wp=true<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=true&wp=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=true&wp=true" /><br />
-            getStatus.ashx?complete=false&android=true&ios=false&wp=true<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=true&ios=false&wp=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=false&wp=true" /><br />
-            getStatus.ashx?complete=false&android=true&ios=true&wp=false<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=true&ios=true&wp=false<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=true&wp=false" /><br />
-            getStatus.ashx?complete=false&android=false&ios=false&wp=false<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=false&wp=false<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=false&wp=false" /><br />
-            getStatus.ashx?complete=true&android=true&ios=true&wp=true&text=true<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=true&android=true&ios=true&wp=true&text=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=true&android=true&ios=true&wp=true&text=true" /><br />
-            getStatus.ashx?complete=false&android=false&ios=true&wp=true&text=true<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=true&wp=true&text=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=true&wp=true&text=true" /><br />
-            getStatus.ashx?complete=false&android=true&ios=false&wp=true&text=true<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=true&ios=false&wp=true&text=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=false&wp=true&text=true" /><br />
-            getStatus.ashx?complete=false&android=true&ios=true&wp=false&text=true<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=true&ios=true&wp=false&text=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=true&wp=false&text=true" /><br />
-            getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true<br />
+            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true" /><br />
         </div>
     </form>
