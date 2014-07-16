@@ -57,6 +57,13 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="2.png" />
+    <Content Include="3-text.png" />
+    <Content Include="4-text.png" />
+    <Content Include="5-text.png" />
+    <Content Include="6-text.png" />
+    <Content Include="7-text.png" />
+    <Content Include="8-text.png" />
     <Content Include="getStatus.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -67,7 +74,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="1.png" />
-    <Content Include="2.png" />
     <Content Include="3.png" />
     <Content Include="4.png" />
     <Content Include="5.png" />
