@@ -13,22 +13,43 @@ namespace Status
     /// </summary>
     public class getStatus : IHttpHandler
     {
-        bool IsCompleteWithSample = false, IsAndroidComplete = false, IsiOSComplete = false, IsWP8Complete = false;
-         
+        bool IsCompleteWithSample = false, IsAndroidComplete = false, IsiOSComplete = false, IsWP8Complete = false, IsText = false, IsWire = false;
+        Guid newGuid;
         public void ProcessRequest(HttpContext context)
         {
             try
             {
-                IsCompleteWithSample = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsComplete"]) ? "false" : context.Request.QueryString["IsComplete"]));
-                IsAndroidComplete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsAndroidComplete"]) ? "false" : context.Request.QueryString["IsAndroidComplete"]));
-                IsiOSComplete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsiOSComplete"]) ? "false" : context.Request.QueryString["IsiOSComplete"]));
-                IsWP8Complete = bool.Parse((String.IsNullOrEmpty(context.Request.QueryString["IsWP8Complete"]) ? "false" : context.Request.QueryString["IsWP8Complete"]));
-                Guid newguid = Guid.NewGuid();                
-                Image img = Image.FromFile((IsCompleteWithSample ? context.Server.MapPath("./images/") + "2.png" : context.Server.MapPath("./images/") + "1.png"));
+                IsText = bool.Parse(GetParam("text", context));
+                IsWire = bool.Parse(GetParam("wire", context));
+                IsCompleteWithSample = bool.Parse(GetParam("complete", context));
+                IsAndroidComplete = bool.Parse(GetParam("android", context));
+                IsiOSComplete = bool.Parse(GetParam("ios", context));
+                IsWP8Complete = bool.Parse(GetParam("wp", context));
+
+                string ext = ".png";
+                string text = ((IsText) ? "-text" : "") + ext;
+
+                var wpImg = Image.FromFile(context.Server.MapPath("./images/") + (IsWP8Complete ? "4" : "3") + text);
+
+                var iOsImg = Image.FromFile(context.Server.MapPath("./images/") + (IsiOSComplete ? "6" : "5") + text);
+                var androidImg = Image.FromFile(context.Server.MapPath("./images/") + (IsAndroidComplete ? "8" : "7") + text);
+                Image img = Image.FromFile(context.Server.MapPath("./images/") + (IsCompleteWithSample ? "2" : "1") + ext);
+
                 Graphics g = Graphics.FromImage(img);
-                g.DrawImage(Image.FromFile((IsAndroidComplete ? context.Server.MapPath("./images/") + "4.png" : context.Server.MapPath("./images/") + "3.png")), new Point(10, 10));
-                g.DrawImage(Image.FromFile((IsiOSComplete ? context.Server.MapPath("./images/") + "6.png" : context.Server.MapPath("./images/") + "5.png")), new Point(20, 20));
-                g.DrawImage(Image.FromFile((IsWP8Complete ? context.Server.MapPath("./images/") + "8.png" : context.Server.MapPath("./images/") + "7.png")), new Point(30, 30));
+                var centerPoint = new Point((img.Width) / 2, (img.Height) / 2);
+
+                g.DrawImage(wpImg, ImgOffset(wpImg, centerPoint));
+                g.DrawImage(iOsImg, ImgOffset(iOsImg, centerPoint));
+                g.DrawImage(androidImg, ImgOffset(androidImg, centerPoint));
+
+                if (IsWire)
+                {
+                    DrawWireFrame(g, img);
+                    DrawWireFrame(g, androidImg, ImgOffset(androidImg, centerPoint), Color.GreenYellow);
+                    DrawWireFrame(g, iOsImg, ImgOffset(iOsImg, centerPoint), Color.Purple);
+                    DrawWireFrame(g, wpImg, ImgOffset(wpImg, centerPoint), Color.Blue);
+                }
+                newGuid = Guid.NewGuid();
                 using (MemoryStream stream = new MemoryStream())
                 {
                     img.Save(stream, ImageFormat.Png);
@@ -36,10 +57,10 @@ namespace Status
 
                     using (Image image = Image.FromStream(stream))
                     {
-                        image.Save(context.Server.MapPath("./images/") + newguid + ".png", ImageFormat.Png);
+                        image.Save(context.Server.MapPath("./images/") + newGuid + ".png", ImageFormat.Png);
                     }
-                     
-                    byte[] imgBytes = File.ReadAllBytes(context.Server.MapPath("./images/") + newguid + ".png");
+
+                    byte[] imgBytes = File.ReadAllBytes(context.Server.MapPath("./images/") + newGuid + ".png");
                     if (imgBytes.Length > 0)
                     {
                         context.Response.ClearHeaders();
@@ -48,7 +69,7 @@ namespace Status
                         context.Response.BinaryWrite(imgBytes);
                     }
                 }
-                File.Delete(context.Server.MapPath("./images/") + newguid + ".png");
+                File.Delete(context.Server.MapPath("./images/") + newGuid + ".png");
             }
             catch (Exception ex)
             {
@@ -57,7 +78,28 @@ namespace Status
             }
             
         }
+        private Point ImgOffset(Image img, Point canvasCenter)
+        {
+            var imageCenter = new Size((img.Width) / 2, (img.Height) / 2);
+            return (Point.Subtract(canvasCenter, imageCenter));
+        }
 
+        private void DrawWireFrame(Graphics g, Image img, Point offset = default(Point), Color color = default(Color))
+        {
+            if (color.IsEmpty)
+                color = Color.Red;
+            g.DrawRectangle(new Pen(color), offset.X, offset.Y, img.Width - 1, img.Height - 1);
+            var endPoints = (Point.Add(offset, img.Size));
+            g.DrawLine(new Pen(color), offset.X, offset.Y, endPoints.X, endPoints.Y);
+            g.DrawLine(new Pen(color), offset.X, endPoints.X, endPoints.Y, offset.Y);
+        }
+
+        private string GetParam(string param, HttpContext context)
+        {
+            return (String.IsNullOrEmpty(context.Request.QueryString[param])
+                ? "false"
+                : context.Request.QueryString[param].ToLowerInvariant());
+        }
         public bool IsReusable
         {
             get

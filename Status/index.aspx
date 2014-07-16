@@ -8,16 +8,28 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <div>
-    getStatus.ashx?IsComplete=true&IsAndroidComplete=true&IsiOSComplete=true&IsWP8Complete=true<br />
-        <img src="getStatus.ashx?IsComplete=true&IsAndroidComplete=true&IsiOSComplete=true&IsWP8Complete=true" /><br />
-    getStatus.ashx?IsComplete=false&IsAndroidComplete=false&IsiOSComplete=true&IsWP8Complete=true<br />
-        <img src="getStatus.ashx?IsComplete=false&IsAndroidComplete=false&IsiOSComplete=true&IsWP8Complete=true" /><br />
-    getStatus.ashx?IsComplete=false&IsAndroidComplete=true&IsiOSComplete=false&IsWP8Complete=true<br />
-        <img src="getStatus.ashx?IsComplete=false&IsAndroidComplete=true&IsiOSComplete=false&IsWP8Complete=true" /><br />
-    getStatus.ashx?IsComplete=false&IsAndroidComplete=true&IsiOSComplete=true&IsWP8Complete=false<br />
-        <img src="getStatus.ashx?IsComplete=false&IsAndroidComplete=true&IsiOSComplete=true&IsWP8Complete=false" /><br />
-    </div>
+        <div>
+            getStatus.ashx?complete=true&android=true&ios=true&wp=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=true&android=true&ios=true&wp=true" /><br />
+            getStatus.ashx?complete=false&android=false&ios=true&wp=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=true&wp=true" /><br />
+            getStatus.ashx?complete=false&android=true&ios=false&wp=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=false&wp=true" /><br />
+            getStatus.ashx?complete=false&android=true&ios=true&wp=false<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=true&wp=false" /><br />
+            getStatus.ashx?complete=false&android=false&ios=false&wp=false<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=false&wp=false" /><br />
+            getStatus.ashx?complete=true&android=true&ios=true&wp=true&text=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=true&android=true&ios=true&wp=true&text=true" /><br />
+            getStatus.ashx?complete=false&android=false&ios=true&wp=true&text=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=true&wp=true&text=true" /><br />
+            getStatus.ashx?complete=false&android=true&ios=false&wp=true&text=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=false&wp=true&text=true" /><br />
+            getStatus.ashx?complete=false&android=true&ios=true&wp=false&text=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=true&wp=false&text=true" /><br />
+            getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true<br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true" /><br />
+        </div>
     </form>
 </body>
 </html>

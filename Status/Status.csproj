@@ -68,11 +68,17 @@
   <ItemGroup>
     <Content Include="Images\1.png" />
     <Content Include="Images\2.png" />
+    <Content Include="Images\3-text.png" />
     <Content Include="Images\3.png" />
+    <Content Include="Images\4-text.png" />
     <Content Include="Images\4.png" />
+    <Content Include="Images\5-text.png" />
     <Content Include="Images\5.png" />
+    <Content Include="Images\6-text.png" />
     <Content Include="Images\6.png" />
+    <Content Include="Images\7-text.png" />
     <Content Include="Images\7.png" />
+    <Content Include="Images\8-text.png" />
     <Content Include="Images\8.png" />
     <Content Include="index.aspx" />
     <Content Include="Web.config" />
