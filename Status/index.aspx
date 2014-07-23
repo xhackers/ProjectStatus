@@ -9,7 +9,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
-            <h1>Usage</h1>
+            <h1>Usage</h1> 
             http://projectstatus.apphb.com/getStatus.ashx?complete=true&android=true&ios=true&wp=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=true&android=true&ios=true&wp=true" /><br />
             http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=true&wp=true<br />
