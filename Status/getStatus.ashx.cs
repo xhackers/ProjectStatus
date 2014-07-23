@@ -16,7 +16,7 @@ namespace Status
         bool IsCompleteWithSample = false, IsAndroidComplete = false, IsiOSComplete = false, IsWP8Complete = false, IsText = false, IsWire = false;
         string Resize = "";
         Guid newGuid;
-        int resizeS = 400, resizeM=600, resizeL=800,requestedSize=400;
+        int resizeS = 400, resizeM=600, resizeL=800,requestedSize=0;
         public void ProcessRequest(HttpContext context)
         {
             try
@@ -24,7 +24,7 @@ namespace Status
                 IsText = bool.Parse(GetParam("text", context));
                 IsWire = bool.Parse(GetParam("wire", context));
                 Resize = GetParam("size", context);
-                if (Resize == "false") requestedSize = 0;
+                if (Resize == "false") requestedSize = 400;
                 else
                 {
                     switch (Resize)
