@@ -14,13 +14,35 @@ namespace Status
     public class getStatus : IHttpHandler
     {
         bool IsCompleteWithSample = false, IsAndroidComplete = false, IsiOSComplete = false, IsWP8Complete = false, IsText = false, IsWire = false;
+        string Resize = "";
         Guid newGuid;
+        int resizeS = 400, resizeM=600, resizeL=800,requestedSize=400;
         public void ProcessRequest(HttpContext context)
         {
             try
             {
                 IsText = bool.Parse(GetParam("text", context));
                 IsWire = bool.Parse(GetParam("wire", context));
+                Resize = GetParam("size", context);
+                if (Resize == "false") requestedSize = 0;
+                else
+                {
+                    switch (Resize)
+                    {
+                        case "s":
+                            requestedSize = resizeS;
+                            break;
+                        case "m":
+                            requestedSize = resizeM;
+                            break;
+                        case "l":
+                            requestedSize = resizeL;
+                            break;
+                        default:
+                            requestedSize = resizeS;
+                            break;
+                    }
+                }
                 IsCompleteWithSample = bool.Parse(GetParam("complete", context));
                 IsAndroidComplete = bool.Parse(GetParam("android", context));
                 IsiOSComplete = bool.Parse(GetParam("ios", context));
@@ -49,17 +71,17 @@ namespace Status
                     DrawWireFrame(g, iOsImg, ImgOffset(iOsImg, centerPoint), Color.Purple);
                     DrawWireFrame(g, wpImg, ImgOffset(wpImg, centerPoint), Color.Blue);
                 }
+                img = ImageResize(img, requestedSize, requestedSize);
                 newGuid = Guid.NewGuid();
                 using (MemoryStream stream = new MemoryStream())
                 {
                     img.Save(stream, ImageFormat.Png);
                     stream.WriteTo(context.Response.OutputStream);
-
                     using (Image image = Image.FromStream(stream))
                     {
                         image.Save(context.Server.MapPath("./images/") + newGuid + ".png", ImageFormat.Png);
                     }
-
+                   
                     byte[] imgBytes = File.ReadAllBytes(context.Server.MapPath("./images/") + newGuid + ".png");
                     if (imgBytes.Length > 0)
                     {
@@ -77,6 +99,35 @@ namespace Status
                 context.Response.Write(ex.Message + "\r\n" + ex.StackTrace + ex.InnerException);
             }
             
+        }
+
+        public static Image ImageResize(Image SourceImage, Int32 NewHeight, Int32 NewWidth)
+        {
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(NewWidth, NewHeight, SourceImage.PixelFormat);
+
+            if (bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format1bppIndexed |
+                bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format4bppIndexed | 
+                bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format8bppIndexed |
+                bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Undefined | 
+                bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.DontCare |
+                bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppArgb1555 |
+                bitmap.PixelFormat == System.Drawing.Imaging.PixelFormat.Format16bppGrayScale)
+            {
+                throw new NotSupportedException("Pixel format of the image is not supported.");
+            }
+
+            System.Drawing.Graphics graphicsImage = System.Drawing.Graphics.FromImage(bitmap);
+
+            graphicsImage.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            graphicsImage.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            graphicsImage.DrawImage(SourceImage, 0, 0, bitmap.Width, bitmap.Height);
+            graphicsImage.Dispose();
+            return bitmap;
+        }
+
+        bool dummyCallBack()
+        {
+            return false;
         }
         private Point ImgOffset(Image img, Point canvasCenter)
         {

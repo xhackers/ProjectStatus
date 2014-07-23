@@ -11,8 +11,8 @@
         <div>
             <h1>Usage</h1>
             http://projectstatus.apphb.com/getStatus.ashx?complete=true&android=true&ios=true&wp=true<br />
-            <img height="200" width="200" src="getStatus.ashx?complete=true&android=true&ios=true&wp=true" /><br />
-            http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=true&wp=true<br />
+            <img  src="getStatus.ashx?complete=true&android=true&ios=true&wp=true&size=l" /><br />
+            <!--http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=true&wp=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=true&wp=true" /><br />
             http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=true&ios=false&wp=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=false&wp=true" /><br />
@@ -29,7 +29,7 @@
             http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=true&ios=true&wp=false&text=true<br />
             <img height="200" width="200" src="getStatus.ashx?complete=false&android=true&ios=true&wp=false&text=true" /><br />
             http://projectstatus.apphb.com/getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true<br />
-            <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true" /><br />
+            <img height="200" width="200" src="getStatus.ashx?complete=false&android=false&ios=false&wp=false&text=true" /><br />-->
         </div>
     </form>
 </body>
